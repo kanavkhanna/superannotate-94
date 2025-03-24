@@ -145,14 +145,33 @@ export default function BMICalculator() {
     }
   }
 
-  // Calculate position on the BMI scale (0-100%)
+  // Calculate position on the BMI scale (0-100%) with correct category boundaries
   const getBmiScalePosition = () => {
     if (bmi === null) return 0
 
-    // Clamp between 10 and 40 for the visual scale
-    const clampedBmi = Math.max(10, Math.min(bmi, 40))
-    // Convert to percentage (10 = 0%, 40 = 100%)
-    return ((clampedBmi - 10) / 30) * 100
+    // Define the BMI category boundaries
+    const boundaries = {
+      underweight: 18.5, // 25% mark
+      normal: 25, // 50% mark
+      overweight: 30, // 75% mark
+    }
+
+    // Calculate position based on which category the BMI falls into
+    if (bmi < boundaries.underweight) {
+      // Underweight: Map 0-18.5 to 0-25%
+      return (bmi / boundaries.underweight) * 25
+    } else if (bmi < boundaries.normal) {
+      // Normal: Map 18.5-25 to 25-50%
+      return 25 + ((bmi - boundaries.underweight) / (boundaries.normal - boundaries.underweight)) * 25
+    } else if (bmi < boundaries.overweight) {
+      // Overweight: Map 25-30 to 50-75%
+      return 50 + ((bmi - boundaries.normal) / (boundaries.overweight - boundaries.normal)) * 25
+    } else {
+      // Obese: Map 30+ to 75-100%, capping at 40 BMI for 100%
+      const maxBmi = 40
+      const cappedBmi = Math.min(bmi, maxBmi)
+      return 75 + ((cappedBmi - boundaries.overweight) / (maxBmi - boundaries.overweight)) * 25
+    }
   }
 
   return (
@@ -266,24 +285,6 @@ export default function BMICalculator() {
                     style={{ left: `${getBmiScalePosition()}%` }}
                     aria-hidden="true"
                   />
-                </div>
-                <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-                  <div className="text-center">
-                    <span className="block font-medium text-primary">Under</span>
-                    <span className="block">&lt;18.5</span>
-                  </div>
-                  <div className="text-center">
-                    <span className="block font-medium text-emerald-600 dark:text-emerald-400">Normal</span>
-                    <span className="block">18.5-24.9</span>
-                  </div>
-                  <div className="text-center">
-                    <span className="block font-medium text-amber-600 dark:text-amber-400">Over</span>
-                    <span className="block">25-29.9</span>
-                  </div>
-                  <div className="text-center">
-                    <span className="block font-medium text-destructive">Obese</span>
-                    <span className="block">≥30</span>
-                  </div>
                 </div>
               </div>
             </div>
