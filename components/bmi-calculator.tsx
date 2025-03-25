@@ -273,26 +273,20 @@ export default function BMICalculator() {
 
               <div className="relative">
                 {/* BMI scale with distinct color sections */}
-                <div className="h-8 relative bg-muted/50 rounded-full overflow-hidden">
+                <div className="h-10 relative bg-muted/50 rounded-full overflow-hidden">
                   <div className="absolute inset-y-0 left-0 w-1/4 bg-primary/70" aria-hidden="true" />
                   <div className="absolute inset-y-0 left-1/4 w-1/4 bg-emerald-500/70" aria-hidden="true" />
                   <div className="absolute inset-y-0 left-2/4 w-1/4 bg-amber-500/70" aria-hidden="true" />
                   <div className="absolute inset-y-0 left-3/4 w-1/4 bg-destructive/70" aria-hidden="true" />
                 </div>
 
-                {/* Enhanced BMI indicator with better visibility */}
+                {/* Enhanced BMI bar indicator with sleeker design */}
                 <div
-                  className="absolute top-0 h-8 flex items-center justify-center transition-all duration-500 z-10"
+                  className="absolute top-0 bottom-0 w-4 bg-white border border-gray-300 shadow-[0_0_6px_rgba(0,0,0,0.3)] rounded-full transform -translate-x-1/2 transition-all duration-500 z-10"
                   style={{ left: `${getBmiScalePosition()}%` }}
+                  aria-hidden="true"
                 >
-                  {/* Triangle pointer above the bar */}
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-background" />
-
-                  {/* Main indicator dot */}
-                  <div className="w-4 h-4 rounded-full bg-background border-2 border-gray-800 shadow-[0_0_0_2px_rgba(255,255,255,0.5)]" />
-
-                  {/* Triangle pointer below the bar */}
-                  <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-b-[6px] border-l-transparent border-r-transparent border-b-background" />
+                  {/* No notches - removed for sleeker design */}
                 </div>
               </div>
             </div>
